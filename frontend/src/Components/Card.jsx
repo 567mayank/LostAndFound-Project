@@ -26,7 +26,7 @@ const Card = ({prop}) => {
           </div>
           <div className="flex gap-x-4">
             <p className="font-semibold">Date Lost:</p>
-            <p>{prop.date_lost}</p>
+            <p>{new Date(prop.date_lost).toLocaleDateString()}</p>
           </div>
         </div>
 
