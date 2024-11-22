@@ -8,14 +8,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const corsOptions = {
+  origin: '', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 
 // Use routes
 app.use('/api/users', userRoutes);
+
+
+app.get('/', (req, res) => {
+  res.send('Hello from the backend!');
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
