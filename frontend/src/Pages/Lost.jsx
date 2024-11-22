@@ -22,7 +22,7 @@ function Lost() {
         if(curPage===2){
             try {
                 const response = await axios.post(
-                    "http://localhost:3000/api/users/add",
+                    "https://lost-and-found-project.vercel.app/api/users/add",
                     {
                         user_name,
                         user_email,

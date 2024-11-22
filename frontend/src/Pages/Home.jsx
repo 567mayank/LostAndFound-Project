@@ -12,7 +12,7 @@ function Home() {
     useEffect(() => {
         const retrieveData = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/users/getAllLostAndFound")
+                const response = await axios.get("https://lost-and-found-project.vercel.app/api/users/getAllLostAndFound")
                 setData(response.data.data)
                 setFilteredData(response.data.data) // Initially show all data
             } catch (error) {
