@@ -3,6 +3,7 @@ import ItemInfo from '../Components/ItemInfo';
 import PersonalInfo from '../Components/PersonalInfo';
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
+import Loading from '../Components/Loading';
 
 function Lost() {
     const [curPage, setCurPage] = useState(1);
@@ -15,12 +16,14 @@ function Lost() {
     const [location_lost, setLocation_lost] = useState("");
     const [date_lost, setDate_lost] = useState("");
     const [status, setStatus] = useState("lost");
+    const [loading,setLoading] = useState(false)
     const navigate = useNavigate()
 
     const handleNext = async (e) => {
         e.preventDefault()
         if(curPage===2){
             try {
+                setLoading(true)
                 const response = await axios.post(
                     "https://lost-and-found-project.vercel.app/api/users/add",
                     {
@@ -38,6 +41,8 @@ function Lost() {
                 navigate("/")
             } catch (error) {
                 console.error("Error in posting data",error)
+            } finally{
+                setLoading(false)
             }
             return
         }
@@ -50,44 +55,50 @@ function Lost() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-center text-zinc-600 mb-6">
-            Don't Worry, We are here to help
-            </h1>
+            {loading?(
+                <Loading/>
+            ):(
+                <div>
+                    <h1 className="text-3xl font-bold text-center text-zinc-600 mb-6">
+                    Don't Worry, We are here to help
+                    </h1>
 
-            <div className=" w-full xl:w-3/5 m-auto p-6 bg-white shadow-lg rounded-lg">
-                
-                {curPage === 1 && (
-                    <ItemInfo
-                        item_name={item_name}
-                        setItem_name={setItem_name}
-                        item_category={item_category}
-                        setItem_category={setItem_category}
-                        item_description={item_description}
-                        setItem_description={setItem_description}
-                        location_lost={location_lost}
-                        setLocation_lost={setLocation_lost}
-                        date_lost={date_lost}
-                        setDate_lost={setDate_lost}
-                        status={status}
-                        setStatus={setStatus}
-                        handleNext={handleNext} 
-                        handlePrev={handlePrev}
-                    />
-                )}
-                
-                {curPage === 2 && (
-                    <PersonalInfo
-                        user_name={user_name}
-                        setUser_name={setUser_name}
-                        user_email={user_email}
-                        setUser_email={setUser_email}
-                        user_phone={user_phone}
-                        setUser_phone={setUser_phone}
-                        handleNext={handleNext} 
-                        handlePrev={handlePrev}
-                    />
-                )}
-            </div>
+                    <div className=" w-full xl:w-3/5 m-auto p-6 bg-white shadow-lg rounded-lg">
+                        
+                        {curPage === 1 && (
+                            <ItemInfo
+                                item_name={item_name}
+                                setItem_name={setItem_name}
+                                item_category={item_category}
+                                setItem_category={setItem_category}
+                                item_description={item_description}
+                                setItem_description={setItem_description}
+                                location_lost={location_lost}
+                                setLocation_lost={setLocation_lost}
+                                date_lost={date_lost}
+                                setDate_lost={setDate_lost}
+                                status={status}
+                                setStatus={setStatus}
+                                handleNext={handleNext} 
+                                handlePrev={handlePrev}
+                            />
+                        )}
+                        
+                        {curPage === 2 && (
+                            <PersonalInfo
+                                user_name={user_name}
+                                setUser_name={setUser_name}
+                                user_email={user_email}
+                                setUser_email={setUser_email}
+                                user_phone={user_phone}
+                                setUser_phone={setUser_phone}
+                                handleNext={handleNext} 
+                                handlePrev={handlePrev}
+                            />
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
